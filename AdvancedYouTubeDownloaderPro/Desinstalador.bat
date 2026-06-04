@@ -1,4 +1,4 @@
-@echo off
+﻿@echo off
 chcp 65001 >nul
 title Advanced Video Downloader - Uninstaller
 
@@ -181,9 +181,7 @@ if exist "%APP_FOLDER%" (
 :: --- PASSO 4: DELETAR ATALHO DA AREA DE TRABALHO ---
 echo.
 echo %MSG_SHORTCUT%
-for /f "usebackq tokens=3,4" %%a in (`reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v Desktop`) do set "DESKTOP_DIR=%%a %%b"
-if "%DESKTOP_DIR%"=="" for /f "usebackq tokens=3" %%a in (`reg query "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders" /v Desktop`) do set "DESKTOP_DIR=%%a"
-call set "DESKTOP_PATH=%DESKTOP_DIR%"
+for /f "usebackq tokens=*" %%d in (`powershell -NoProfile -Command "[Environment]::GetFolderPath('Desktop')"`) do set "DESKTOP_PATH=%%d"
 
 if exist "%DESKTOP_PATH%\%ATALHO_NOME%.lnk" (
     del /F /Q "%DESKTOP_PATH%\%ATALHO_NOME%.lnk"
